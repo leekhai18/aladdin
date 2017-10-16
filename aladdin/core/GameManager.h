@@ -5,10 +5,9 @@
 * Created by phuctm97 on Sep 27th 2017
 */
 
-#include "GameObject.h"
+#include "Node.h"
 #include "Scene.h"
 #include "GameResource.h"
-#include "Prefab.h"
 #include "Logger.h"
 #include "Messenger.h"
 
@@ -59,26 +58,26 @@ public:
   // Object Management
   // ===============================================
 private:
-  std::unordered_map<long, GameObject*> _attachedObjects;
+  std::unordered_map<long, Node*> _attachedNodes;
 
 public:
-  void attach( GameObject* gameObject );
+  void attach( Node* node );
 
-  void detach( GameObject* gameObject );
+  void detach( Node* node);
 
-  std::vector<GameObject*> getAllObjects();
+  std::vector<Node*> getAllNodes();
 
-  GameObject* getObjectById( const long id );
-
-  template <class T>
-  T* getObjectTById( const long id );
-
-  std::vector<GameObject*> getAllObjectsByName( const std::string& name );
-
-  GameObject* getObjectByName( const std::string& name );
+  Node* getNodeById( const long id );
 
   template <class T>
-  T* getObjectTByName( const std::string& name );
+  T* getNodeTById( const long id );
+
+  std::vector<Node*> getAllNodesByName( const std::string& name );
+
+  Node* getNodeByName( const std::string& name );
+
+  template <class T>
+  T* getNodeTByName( const std::string& name );
 
   // ===============================================
   // Scene Management
@@ -116,21 +115,6 @@ public:
   std::vector<GameResource*> getAllResources();
 
   // ===============================================
-  // Prefab Management
-  // ===============================================
-private:
-  std::unordered_map<std::string, Prefab*> _registeredPrefabs;
-
-public:
-  void registerPrefab( Prefab* prefab );
-
-  void removePrefab( Prefab* prefab );
-
-  Prefab* getPrefab( const std::string& name );
-
-  std::vector<Prefab*> getAllPrefabs();
-
-  // ===============================================
   // Global messenger
   // ===============================================
 private:
@@ -147,25 +131,25 @@ public:
 // ===============================================
 
 template <class T>
-T* GameManager::getObjectTById( const long id ) {
-  const auto objectIt = _attachedObjects.find( id );
-  if ( objectIt == _attachedObjects.end() ) return NULL;
+T* GameManager::getNodeTById( const long id ) {
+  const auto nodeIt = _attachedNodes.find( id );
+  if (nodeIt == _attachedNodes.end() ) return NULL;
 
-  const auto object = objectIt->second;
-  if ( ALA_IS_INSTANCE_OF( object, T) ) {
-    return static_cast<T *>(object);
+  const auto node = nodeIt->second;
+  if ( ALA_IS_INSTANCE_OF(node, T) ) {
+    return static_cast<T *>(node);
   }
   return NULL;
 }
 
 template <class T>
-T* GameManager::getObjectTByName( const std::string& name ) {
-  for ( auto& pair : _attachedObjects ) {
-    auto object = pair.second;
-    if ( object == NULL ) continue;
-    if ( object->getName() == name ) {
-      if ( ALA_IS_INSTANCE_OF(object, T) ) {
-        return static_cast<T *>(object);
+T* GameManager::getNodeTByName( const std::string& name ) {
+  for ( auto& pair : _attachedNodes ) {
+    auto node = pair.second;
+    if (node == NULL ) continue;
+    if (node->getName() == name ) {
+      if ( ALA_IS_INSTANCE_OF(node, T) ) {
+        return static_cast<T *>(node);
       }
     }
   }

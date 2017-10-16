@@ -10,7 +10,7 @@
 
 NAMESPACE_ALA
 {
-class Sprite;
+  class Texture;
 
 ALA_CLASS_HEADER_2(Graphics, ala::Initializable, ala::Releasable)
   // ==========================================
@@ -57,9 +57,9 @@ public:
 
   void endRendering();
 
-  void loadSprite( Sprite* sprite );
+  void loadTexture(Texture* texture) const;
 
-  void drawSprite( Sprite* sprite, const Vec2& origin, const Mat4& transformMatrix, const Color& backColor, const Rect& srcRect, const int zIndex = 0 );
+  void drawTexture(Texture* texture, const Vec2& origin, const Mat4& transformMatrix, const Color& backColor, const Rect& srcRect, const int zIndex = 0 );
 
   D3DXMATRIX convertToDirectXMatrix( const Mat4& mat ) const;
 

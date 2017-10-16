@@ -3,7 +3,7 @@
  */
 
 #include "Graphics.h"
-#include "Sprite.h"
+#include "Texture.h"
 
 NAMESPACE_ALA
 {
@@ -135,7 +135,7 @@ bool Graphics::beginRendering() {
   _directXDevice->SetTransform(D3DTS_WORLD, &_worldMatrix);
   _directXDevice->SetTransform(D3DTS_VIEW, &_viewMatrix);
 
-  if ( _directXSprite->Begin( D3DXSPRITE_ALPHABLEND | D3DXSPRITE_OBJECTSPACE) != D3D_OK ) {
+  if ( _directXSprite->Begin( D3DXSPRITE_ALPHABLEND | D3DXSPRITE_SORT_DEPTH_BACKTOFRONT) != D3D_OK ) {
     _directXDevice->EndScene();
     _directXDevice->Present( 0, 0, 0, 0 );
     return false;
@@ -153,22 +153,23 @@ void Graphics::endRendering() {
   _directXDevice->Present( 0, 0, 0, 0 );
 }
 
-void Graphics::loadSprite( Sprite* sprite ) {
-  if ( sprite->getDirectXTexture() ) {
-    sprite->getDirectXTexture()->Release();
+void Graphics::loadTexture( Texture* texture ) const
+{
+  if ( texture->getDirectXTexture() ) {
+    texture->getDirectXTexture()->Release();
   }
   HRESULT result;
 
   // load image info
   D3DXIMAGE_INFO info;
-  result = D3DXGetImageInfoFromFile( sprite->getSourceFile().c_str(), &info );
+  result = D3DXGetImageInfoFromFile(texture->getSourceFile().c_str(), &info );
   ALA_ASSERT(result == D3D_OK);
 
   // create texture
-  LPDIRECT3DTEXTURE9 texture = NULL;
+  LPDIRECT3DTEXTURE9 directXTexture = NULL;
   D3DXCreateTextureFromFileEx(
     _directXDevice, //Direct3D device object
-    sprite->getSourceFile().c_str(), //bitmap filename
+    texture->getSourceFile().c_str(), //bitmap filename
     info.Width, //bitmap image width
     info.Height, //bitmap image height
     1, //mip-map levels (1 for no chain)
@@ -177,19 +178,19 @@ void Graphics::loadSprite( Sprite* sprite ) {
     D3DPOOL_DEFAULT, //memory class for the texture
     D3DX_DEFAULT, //image filter
     D3DX_DEFAULT, //mip filter
-    D3DCOLOR_XRGB(sprite->getTransColor().getR(), sprite->getTransColor().getG(), sprite->getTransColor().getB()), //color key for transparency
+    D3DCOLOR_XRGB(texture->getTransColor().getR(), texture->getTransColor().getG(), texture->getTransColor().getB()), //color key for transparency
     &info, //bitmap file info (from loaded file)
     NULL, //color palette
-    &texture ); //destination texture
+    &directXTexture ); //destination texture
 
   ALA_ASSERT(result == D3D_OK);
-  sprite->setDirectXTexture( texture );
-  sprite->setContentSize( Size( static_cast<float>(info.Width), static_cast<float>(info.Height) ) );
+  texture->setDirectXTexture(directXTexture);
+  texture->setContentSize( Size( static_cast<float>(info.Width), static_cast<float>(info.Height) ) );
 }
 
-void Graphics::drawSprite( Sprite* sprite, const Vec2& origin, const Mat4& transformMatrix, const Color& backColor, const Rect& srcRect, const int zIndex ) {
-  LPDIRECT3DTEXTURE9 texture = sprite->getDirectXTexture();
-  ALA_ASSERT(texture);
+void Graphics::drawTexture(Texture* texture, const Vec2& origin, const Mat4& transformMatrix, const Color& backColor, const Rect& srcRect, const int zIndex ) {
+  LPDIRECT3DTEXTURE9 directXTexture = texture->getDirectXTexture();
+  ALA_ASSERT(directXTexture);
 
   RECT dSrcRect = convertToWindowsRect( srcRect );
 
@@ -200,9 +201,7 @@ void Graphics::drawSprite( Sprite* sprite, const Vec2& origin, const Mat4& trans
 
   D3DXMATRIX oldMatrix;
 
-  auto flipMatrix = Mat4::getScalingMatrix(1, -1, 1);
-
-  auto transformationMatrix = convertToDirectXMatrix(flipMatrix* transformMatrix);
+  auto transformationMatrix = convertToDirectXMatrix(transformMatrix);
 
   _directXSprite->GetTransform( &oldMatrix );
 
@@ -214,7 +213,7 @@ void Graphics::drawSprite( Sprite* sprite, const Vec2& origin, const Mat4& trans
 
   if ( srcRect.getSize().getWidth() == 0 || srcRect.getSize().getHeight() == 0 ) {
     _directXSprite->Draw(
-      texture,
+      directXTexture,
       NULL,
       &center,
       &dPostition,
@@ -222,7 +221,7 @@ void Graphics::drawSprite( Sprite* sprite, const Vec2& origin, const Mat4& trans
   }
   else {
     _directXSprite->Draw(
-      texture,
+      directXTexture,
       &dSrcRect,
       &center,
       &dPostition,

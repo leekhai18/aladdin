@@ -3,20 +3,12 @@
  */
 
 #include "IntroScene.h"
+#include "../nodes/MyAladdin.h"
 
-IntroScene::IntroScene() : _ballDirectionChangedListener( 0 ), _logger( "IntroScene" ) {}
+IntroScene::IntroScene() : _logger( "IntroScene" ) {}
 
 void IntroScene::onPreInitialize() {
-  ala::GameManager::get()->getPrefab( "Camera" )->instantiate();
-  ala::GameManager::get()->getPrefab( "AnimationExample" )->instantiate();
-
-  subscribeGlobalMessage(
-    "Ball Direction Changed",
-    [=]( ala::MessageArgs* arg ) {
-
-    _logger.info( static_cast<ala::StringMessageArgs*>(arg)->getPayload().c_str() );
-
-  } );
+  new MyAladdin(this);
 }
 
 void IntroScene::onPreRelease() {}

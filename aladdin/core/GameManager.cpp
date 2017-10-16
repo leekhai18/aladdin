@@ -80,40 +80,40 @@ long GameManager::newId() {
 // Object Management
 // ==============================================
 
-void GameManager::attach( GameObject* gameObject ) {
+void GameManager::attach( Node* gameObject ) {
   if ( isReleasing() || isReleased() ) return;
   if ( gameObject == NULL ) return;
-  _attachedObjects.emplace( gameObject->getId(), gameObject );
+  _attachedNodes.emplace( gameObject->getId(), gameObject );
 }
 
-void GameManager::detach( GameObject* gameObject ) {
+void GameManager::detach( Node* gameObject ) {
   if ( isReleasing() || isReleased() ) return;
   if ( gameObject == NULL ) return;
-  _attachedObjects.erase( gameObject->getId() );
+  _attachedNodes.erase( gameObject->getId() );
 }
 
-std::vector<GameObject*> GameManager::getAllObjects() {
-  std::vector<GameObject*> ret;
+std::vector<Node*> GameManager::getAllNodes() {
+  std::vector<Node*> ret;
 
-  for ( const auto it : _attachedObjects ) {
+  for ( const auto it : _attachedNodes ) {
     ret.push_back( it.second );
   }
 
   return ret;
 }
 
-GameObject* GameManager::getObjectById( const long id ) {
-  const auto objectIt = _attachedObjects.find( id );
-  if ( objectIt == _attachedObjects.end() ) return NULL;
+Node* GameManager::getNodeById( const long id ) {
+  const auto objectIt = _attachedNodes.find( id );
+  if ( objectIt == _attachedNodes.end() ) return NULL;
 
   const auto object = objectIt->second;
   return object;
 }
 
-std::vector<GameObject*> GameManager::getAllObjectsByName( const std::string& name ) {
-  std::vector<GameObject*> ret;
+std::vector<Node*> GameManager::getAllNodesByName( const std::string& name ) {
+  std::vector<Node*> ret;
 
-  for ( auto& pair : _attachedObjects ) {
+  for ( auto& pair : _attachedNodes ) {
     auto object = pair.second;
     if ( object == NULL ) continue;
     if ( object->getName() == name ) {
@@ -124,8 +124,8 @@ std::vector<GameObject*> GameManager::getAllObjectsByName( const std::string& na
   return ret;
 }
 
-GameObject* GameManager::getObjectByName( const std::string& name ) {
-  for ( auto& pair : _attachedObjects ) {
+Node* GameManager::getNodeByName( const std::string& name ) {
+  for ( auto& pair : _attachedNodes ) {
     const auto object = pair.second;
     if ( object == NULL ) continue;
     if ( object->getName() == name ) {
@@ -218,42 +218,6 @@ std::vector<GameResource*> GameManager::getAllResources() {
   for ( const auto it : _attachedResources ) {
     auto resource = it.second;
     ret.push_back( resource );
-  }
-
-  return ret;
-}
-
-// ===============================================
-// Prefab Management
-// ===============================================
-
-void GameManager::registerPrefab( Prefab* prefab ) {
-  if ( isReleasing() || isReleased() ) return;
-  if ( prefab == NULL ) return;
-
-  auto rc = _registeredPrefabs.emplace( prefab->getName(), prefab );
-
-  // make sure there is no duplicate prefab
-  ALA_ASSERT(rc.second == true);
-}
-
-void GameManager::removePrefab( Prefab* prefab ) {
-  if ( isReleasing() || isReleased() ) return;
-  if ( prefab == NULL ) return;
-  _registeredPrefabs.erase( prefab->getName() );
-}
-
-Prefab* GameManager::getPrefab( const std::string& name ) {
-  const auto it = _registeredPrefabs.find( name );
-  if ( it == _registeredPrefabs.end() ) return NULL;
-  return it->second;
-}
-
-std::vector<Prefab*> GameManager::getAllPrefabs() {
-  std::vector<Prefab*> ret;
-
-  for ( const auto it : _registeredPrefabs ) {
-    ret.push_back( it.second );
   }
 
   return ret;

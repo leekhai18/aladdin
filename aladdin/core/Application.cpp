@@ -39,14 +39,10 @@ Application::~Application() {
   _logger.info( "Total Resources Deleted: %ld", GameResource::TOTAL_RESOURCES_DELETED );
   _logger.info( "Total Resource Initializers Created: %ld", ResourceInitializer::TOTAL_RESOURCE_INITIALIZERS_CREATED );
   _logger.info( "Total Resource Initializers Deleted: %ld", ResourceInitializer::TOTAL_RESOURCE_INITIALIZERS_DELETED );
-  _logger.info( "Total Prefabs Created: %ld", Prefab::TOTAL_PREFABS_CREATED );
-  _logger.info( "Total Prefabs Deleted: %ld", Prefab::TOTAL_PREFABS_DELETED );
   _logger.info( "Total Scenes Created: %ld", Scene::TOTAL_SCENES_CREATED );
   _logger.info( "Total Scenes Deleted: %ld", Scene::TOTAL_SCENES_DELETED );
-  _logger.info( "Total Objects Created: %ld", GameObject::TOTAL_OBJECTS_CREATED );
-  _logger.info( "Total Objects Deleted: %ld", GameObject::TOTAL_OBJECTS_DELETED );
-  _logger.info( "Total Components Created: %ld", GameObjectComponent::TOTAL_COMPONENTS_CREATED );
-  _logger.info( "Total Components Deleted: %ld", GameObjectComponent::TOTAL_COMPONENTS_DELETED );
+  _logger.info( "Total Objects Created: %ld", Node::TOTAL_NODES_CREATED );
+  _logger.info( "Total Objects Deleted: %ld", Node::TOTAL_NODES_DELETED );
   _logger.info( "Total Loggers Created: %ld", Logger::TOTAL_LOGGERS_CREATED );
   _logger.info( "Total Loggers Deleted: %ld", Logger::TOTAL_LOGGERS_DELETED + 1 );
   _logger.info( "Total Messengers Created: %ld", Messenger::TOTAL_MESSENGERS_CREATED );
@@ -240,18 +236,13 @@ void Application::releaseComponents() {
   scene->release();
 
   // left objects
-  for ( auto object : GameManager::get()->getAllObjects() ) {
-    object->release();
+  for ( auto node : GameManager::get()->getAllNodes() ) {
+    node->release();
   }
 
   // left resources
   for ( auto resource : GameManager::get()->getAllResources() ) {
     resource->release();
-  }
-
-  // left prefabs
-  for ( auto prefab : GameManager::get()->getAllPrefabs() ) {
-    prefab->release();
   }
 
   // game singleton components

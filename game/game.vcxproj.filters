@@ -28,6 +28,9 @@
     <Filter Include="animations">
       <UniqueIdentifier>{6f2110f8-5cca-4925-a665-f5a8eb1bcb0e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="nodes">
+      <UniqueIdentifier>{0fe08d68-c3ca-4de4-a802-4714aed9d024}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="app\main.cpp">
@@ -42,17 +45,8 @@
     <ClCompile Include="app\MyResourceInitializer.cpp">
       <Filter>app</Filter>
     </ClCompile>
-    <ClCompile Include="prefabs\BallPrefab.cpp">
-      <Filter>prefabs</Filter>
-    </ClCompile>
-    <ClCompile Include="scripts\BallController.cpp">
-      <Filter>scripts</Filter>
-    </ClCompile>
-    <ClCompile Include="prefabs\CameraPrefab.cpp">
-      <Filter>prefabs</Filter>
-    </ClCompile>
-    <ClCompile Include="prefabs\AnimationExamplePrefab.cpp">
-      <Filter>prefabs</Filter>
+    <ClCompile Include="nodes\MyAladdin.cpp">
+      <Filter>nodes</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -65,17 +59,8 @@
     <ClInclude Include="app\MyResourceInitializer.h">
       <Filter>app</Filter>
     </ClInclude>
-    <ClInclude Include="prefabs\BallPrefab.h">
-      <Filter>prefabs</Filter>
-    </ClInclude>
-    <ClInclude Include="scripts\BallController.h">
-      <Filter>scripts</Filter>
-    </ClInclude>
-    <ClInclude Include="prefabs\CameraPrefab.h">
-      <Filter>prefabs</Filter>
-    </ClInclude>
-    <ClInclude Include="prefabs\AnimationExamplePrefab.h">
-      <Filter>prefabs</Filter>
+    <ClInclude Include="nodes\MyAladdin.h">
+      <Filter>nodes</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

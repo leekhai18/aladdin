@@ -122,11 +122,8 @@ xcopy /i /e /s /y /f "$(ProjectDir)animations\*" "$(TargetDir)animations\"</Comm
     <ClCompile Include="app\main.cpp" />
     <ClCompile Include="app\MyApp.cpp" />
     <ClCompile Include="app\MyResourceInitializer.cpp" />
-    <ClCompile Include="prefabs\AnimationExamplePrefab.cpp" />
-    <ClCompile Include="prefabs\BallPrefab.cpp" />
-    <ClCompile Include="prefabs\CameraPrefab.cpp" />
+    <ClCompile Include="nodes\MyAladdin.cpp" />
     <ClCompile Include="scenes\IntroScene.cpp" />
-    <ClCompile Include="scripts\BallController.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\aladdin\aladdin.vcxproj">
@@ -136,11 +133,8 @@ xcopy /i /e /s /y /f "$(ProjectDir)animations\*" "$(TargetDir)animations\"</Comm
   <ItemGroup>
     <ClInclude Include="app\MyApp.h" />
     <ClInclude Include="app\MyResourceInitializer.h" />
-    <ClInclude Include="prefabs\AnimationExamplePrefab.h" />
-    <ClInclude Include="prefabs\BallPrefab.h" />
-    <ClInclude Include="prefabs\CameraPrefab.h" />
+    <ClInclude Include="nodes\MyAladdin.h" />
     <ClInclude Include="scenes\IntroScene.h" />
-    <ClInclude Include="scripts\BallController.h" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="log.txt" />

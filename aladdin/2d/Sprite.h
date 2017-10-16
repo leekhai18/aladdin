@@ -1,52 +1,34 @@
-#ifndef __ALADDIN_2D_SPRITE_H__
+﻿#ifndef __ALADDIN_2D_SPRITE_H__
 #define __ALADDIN_2D_SPRITE_H__
 
-/*
- * Created by phuctm97 on Sep 30th 2017
- */
-
-#include "2dInclude.h"
-#include "Size.h"
+#include "../core/Node.h"
+#include "Texture.h"
+#include "Rect.h"
 
 NAMESPACE_ALA
 {
-ALA_CLASS_HEADER_1(Sprite, ala::GameResource)
-  // ======================================
-  // Basic
-  // ======================================
-private:
-  std::string _sourceFile;
-  ala::Size _contentSize;
-  ala::Color _transColor;
-
-public:
-  Sprite( const std::string& name, const std::string& sourceFile, const ala::Color& transColor = ala::Color( 255, 0, 255 ), Scene* scope = NULL );
-
-  virtual ~Sprite();
-
-  const std::string& getSourceFile() const;
-
-  const ala::Color& getTransColor() const;
-
-  const ala::Size& getContentSize() const;
-
-  void setContentSize( const ala::Size& size );
-
+ALA_CLASS_HEADER_1(Sprite, Node)
 protected:
-  void onLoad() override;
-
-  void onRelease() override;
-
-  // ======================================
-  // Platform specific
-  // ======================================
-private:
-  LPDIRECT3DTEXTURE9 _directXTexture;
-
+  Texture* _texture;
+  Color _backColor;
+  int _zOrder;
+  Rect _srcRect;
 public:
-  void setDirectXTexture( LPDIRECT3DTEXTURE9 directXTexture );
+  Sprite(Scene* parentScene, Texture* texture = NULL, const std::string& name = "");
+  Sprite(Scene* parentScene, const std::string& textureResourceName = "", const std::string& name = "");
 
-  LPDIRECT3DTEXTURE9 getDirectXTexture();
+  Texture* getTexture() const;
+  void setTexture(Texture* texture);
+
+  const Color& getBackColor()const;
+  void setBackColor(const Color& color);
+
+  Size getFrameSize() const;
+
+  void setZOrder(int zOrder);
+  int getZOrder() const;
+
+  void render() override;
 };
 }
 

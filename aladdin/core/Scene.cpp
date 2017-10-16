@@ -15,7 +15,7 @@ ALA_CLASS_SOURCE_2(ala::Scene, ala::Initializable, ala::Releasable)
 // Basic
 // ================================================
 
-Scene::Scene(): _toReleaseInNextFrame( false ), _gameObjectInLocking( false ) {
+Scene::Scene(): _toReleaseInNextFrame( false ), _nodeInLocking( false ) {
   // check initial state
   ALA_ASSERT((!isInitialized()) && (!isInitializing()) && (!isReleased()) && (!isReleasing()));
 
@@ -53,7 +53,7 @@ void Scene::initialize() {
   }
 
   // init game objects
-  for ( const auto it : _gameObjects ) {
+  for ( const auto it : _nodes ) {
     auto object = it.second;
 
     if ( !object->isInitialized() ) {
@@ -81,23 +81,23 @@ void Scene::update( const float delta ) {
   }
 
   // update actions
-  updateAddAndRemoveGameObjects();
+  updateAddAndRemoveNodes();
 
   if ( !isInitialized() ) return;
 
-  lockGameObjects();
+  lockNodes();
 
   onPreUpdate( delta );
 
   // update game objects
-  for ( const auto it : _gameObjects ) {
+  for ( const auto it : _nodes ) {
     auto object = it.second;
     object->update( delta );
   }
 
   onPostUpdate( delta );
 
-  unlockGameObjects();
+  unlockNodes();
 }
 
 void Scene::onPreUpdate( const float delta ) {}
@@ -108,19 +108,19 @@ void Scene::render() {
   // make sure scene is initialized and not being released
   if ( (!isInitialized()) || isReleasing() || isReleased() ) return;
 
-  lockGameObjects();
+  lockNodes();
 
   onPreRender();
 
   // render game objects
-  for ( const auto it : _gameObjects ) {
+  for ( const auto it : _nodes ) {
     auto object = it.second;
     object->render();
   }
 
   onPostRender();
 
-  unlockGameObjects();
+  unlockNodes();
 }
 
 void Scene::onPreRender() {}
@@ -129,7 +129,7 @@ void Scene::onPostRender() {}
 
 void Scene::release() {
   // check lock
-  if ( _gameObjectInLocking ) {
+  if ( _nodeInLocking ) {
     releaseInNextFrame();
     return;
   }
@@ -142,8 +142,8 @@ void Scene::release() {
   setToReleasing();
 
   // release game objects
-  std::vector<GameObject*> gameObjectsToRelease;
-  for ( const auto it : _gameObjects ) {
+  std::vector<Node*> nodesToRelease;
+  for ( const auto it : _nodes ) {
     auto object = it.second;
     object->release();
   }
@@ -175,74 +175,74 @@ void Scene::onPostRelease() {}
 // Objects Management
 // ==================================================
 
-GameObject* Scene::getGameObject( const long id ) {
-  const auto it = _gameObjects.find( id );
-  if ( it == _gameObjects.end() ) return NULL;
+Node* Scene::getNode( const long id ) {
+  const auto it = _nodes.find( id );
+  if ( it == _nodes.end() ) return NULL;
   return it->second;
 }
 
-void Scene::addGameObject( GameObject* gameObject ) {
+void Scene::addNode( Node* node ) {
   // check lock
-  if ( _gameObjectInLocking ) {
-    addGameObjectInNextFrame( gameObject );
+  if ( _nodeInLocking ) {
+    addNodeInNextFrame( node );
     return;
   }
 
   if ( isReleasing() || isReleased() ) return;
-  if ( gameObject == NULL ) return;
-  doAddGameObject( gameObject );
+  if ( node == NULL ) return;
+  doAddNode( node );
 }
 
-void Scene::addGameObjectInNextFrame( GameObject* gameObject ) {
+void Scene::addNodeInNextFrame( Node* node ) {
   if ( isReleasing() || isReleased() ) return;
-  if ( gameObject == NULL ) return;
-  _gameObjectsToAddInNextFrame.push_back( gameObject );
+  if ( node == NULL ) return;
+  _nodesToAddInNextFrame.push_back( node );
 }
 
-void Scene::removeGameObject( GameObject* gameObject ) {
+void Scene::removeNode( Node* node ) {
   // check lock
-  if ( _gameObjectInLocking ) {
-    removeGameObjectInNextFrame( gameObject );
+  if ( _nodeInLocking ) {
+    removeNodeInNextFrame( node );
     return;
   }
 
   if ( isReleasing() || isReleased() ) return;
-  if ( gameObject == NULL ) return;
-  doRemoveGameObject( gameObject );
+  if ( node == NULL ) return;
+  doRemoveNode( node );
 }
 
-void Scene::removeGameObjectInNextFrame( GameObject* gameObject ) {
+void Scene::removeNodeInNextFrame( Node* node ) {
   if ( isReleasing() || isReleased() ) return;
-  if ( gameObject == NULL ) return;
-  _gameObjectsToRemoveInNextFrame.push_back( gameObject );
+  if ( node == NULL ) return;
+  _nodesToRemoveInNextFrame.push_back( node );
 }
 
-void Scene::lockGameObjects() {
-  _gameObjectInLocking = true;
+void Scene::lockNodes() {
+  _nodeInLocking = true;
 }
 
-void Scene::unlockGameObjects() {
-  _gameObjectInLocking = false;
+void Scene::unlockNodes() {
+  _nodeInLocking = false;
 }
 
-void Scene::updateAddAndRemoveGameObjects() {
-  for ( auto object : _gameObjectsToAddInNextFrame ) {
-    doAddGameObject( object );
+void Scene::updateAddAndRemoveNodes() {
+  for ( auto object : _nodesToAddInNextFrame ) {
+    doAddNode( object );
   }
-  _gameObjectsToAddInNextFrame.clear();
+  _nodesToAddInNextFrame.clear();
 
-  for ( auto object : _gameObjectsToRemoveInNextFrame ) {
-    doRemoveGameObject( object );
+  for ( auto object : _nodesToRemoveInNextFrame ) {
+    doRemoveNode( object );
   }
-  _gameObjectsToRemoveInNextFrame.clear();
+  _nodesToRemoveInNextFrame.clear();
 }
 
-void Scene::doAddGameObject( GameObject* gameObject ) {
-  _gameObjects.emplace( gameObject->getId(), gameObject );
+void Scene::doAddNode( Node* node ) {
+  _nodes.emplace( node->getId(), node );
 }
 
-void Scene::doRemoveGameObject( GameObject* gameObject ) {
-  _gameObjects.erase( gameObject->getId() );
+void Scene::doRemoveNode( Node* node ) {
+  _nodes.erase( node->getId() );
 }
 
 // =============================================

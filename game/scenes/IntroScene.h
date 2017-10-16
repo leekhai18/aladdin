@@ -7,7 +7,7 @@
 
 #include <aladdin.h>
 
-class IntroScene : public ala::Scene, public ala::MessageListener {
+class IntroScene : public ala::Scene {
 public:
   IntroScene();
 
@@ -17,8 +17,6 @@ protected:
   void onPreRelease() override;
 
 private:
-  long _ballDirectionChangedListener;
-
   ala::Logger _logger;
 };
 

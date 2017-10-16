@@ -1,55 +1,69 @@
-/*
- * Created by phuctm97 on Sep 30th 2017
- */
-
-#include "Sprite.h"
+﻿#include "Sprite.h"
 #include "Graphics.h"
 
 NAMESPACE_ALA
 {
-ALA_CLASS_SOURCE_1(ala::Sprite, ala::GameResource)
+ALA_CLASS_SOURCE_1 ( Sprite, Node )
 
-Sprite::Sprite( const std::string& name, const std::string& sourceFile, const ala::Color& transColor, Scene* scope )
-  : GameResource( name, scope ),
-    _sourceFile( sourceFile ),
-    _contentSize( 0, 0 ),
-    _transColor( transColor ),
-    _directXTexture( 0 ) {}
-
-Sprite::~Sprite() {}
-
-const std::string& Sprite::getSourceFile() const {
-  return _sourceFile;
+Sprite::Sprite ( Scene* parentScene, Texture* texture, const std::string& name )
+  :Node ( parentScene, name ),
+  _texture(texture),
+  _backColor ( 255,255,255 ),
+  _zOrder ( 0 )
+{
+  _srcRect.setTopLeft(Vec2(0.f, 0.f));
+  _srcRect.setSize(_texture->getContentSize());
 }
 
-const ala::Color& Sprite::getTransColor() const {
-  return _transColor;
+Sprite::Sprite ( Scene* parentScene, const std::string& textureResourceName, const std::string& name )
+  :Node(parentScene, name),
+  _backColor ( 255,255,255 ),
+  _zOrder ( 0 )
+{
+  _texture = static_cast<Texture*>(GameManager::get (  )->getResource(textureResourceName));
+  _srcRect.setTopLeft(Vec2(0.f, 0.f));
+  _srcRect.setSize(_texture->getContentSize());
 }
 
-const ala::Size& Sprite::getContentSize() const {
-  return _contentSize;
+Texture* Sprite::getTexture ( ) const
+{
+  return _texture;
 }
 
-void Sprite::setContentSize( const Size& size ) {
-  _contentSize = size;
+void Sprite::setTexture ( Texture* texture )
+{
+  _texture = texture;
 }
 
-void Sprite::onLoad() {
-  Graphics::get()->loadSprite( this );
-  ALA_ASSERT( _directXTexture != 0);
+const Color& Sprite::getBackColor ( ) const
+{
+  return _backColor;
 }
 
-void Sprite::onRelease() {
-  if ( _directXTexture ) {
-    _directXTexture->Release();
-  }
+void Sprite::setBackColor ( const Color& color )
+{
+  _backColor = color;
 }
 
-void Sprite::setDirectXTexture( LPDIRECT3DTEXTURE9 directXTexture ) {
-  _directXTexture = directXTexture;
+Size Sprite::getFrameSize ( ) const
+{
+  return Size(_srcRect.getSize().getWidth()* _scale.getX(), _srcRect.getSize().getHeight()* _scale.getY());
 }
 
-LPDIRECT3DTEXTURE9 Sprite::getDirectXTexture() {
-  return _directXTexture;
+void Sprite::setZOrder ( const int zOrder )
+{
+  _zOrder = zOrder;
+}
+
+int Sprite::getZOrder ( ) const
+{
+  return _zOrder;
+}
+
+void Sprite::render ( )
+{
+  if ((!isInitialized()) || isReleasing() || isReleased()) return;
+
+  Graphics::get()->drawTexture(_texture, _origin, getTransformationMatrix (  ), _backColor, _srcRect, _zOrder);
 }
 }

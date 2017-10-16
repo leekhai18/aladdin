@@ -6,8 +6,6 @@
 #include "../core/Vec2.h"
 #include "../core/Mat4.h"
 #include "../core/GameResource.h"
-#include "../core/GameObjectComponent.h"
-#include "../core/Transform.h"
 #include "../core/GameManager.h"
 
 #include "dxaudio.h"

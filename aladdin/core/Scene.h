@@ -9,7 +9,7 @@
 * Created by phuctm97 on Sep 27th 2017
 */
 
-#include "GameObject.h"
+#include "Node.h"
 
 NAMESPACE_ALA
 {
@@ -105,40 +105,40 @@ protected:
   // Objects Management
   // ==================================================
 private:
-  std::unordered_map<long, GameObject*> _gameObjects;
-  bool _gameObjectInLocking;
-  std::vector<GameObject*> _gameObjectsToAddInNextFrame;
-  std::vector<GameObject*> _gameObjectsToRemoveInNextFrame;
+  std::unordered_map<long, Node*> _nodes;
+  bool _nodeInLocking;
+  std::vector<Node*> _nodesToAddInNextFrame;
+  std::vector<Node*> _nodesToRemoveInNextFrame;
 
 public:
-  GameObject* getGameObject( const long id );
+  Node* getNode( const long id );
 
   /**
    * \brief Attach game object to scene, this will not change game object's parent, you should not call this method directly
-   * \param gameObject Game object to attach
+   * \param Node Game object to attach
    */
-  void addGameObject( GameObject* gameObject );
+  void addNode(Node* node);
 
-  void addGameObjectInNextFrame( GameObject* gameObject );
+  void addNodeInNextFrame(Node* node);
 
   /**
    * \brief Detach game object from scene, this will not change game object's parent or release it, you should not call this method directly
-   * \param gameObject Game object to detach
+   * \param Node Game object to detach
    */
-  void removeGameObject( GameObject* gameObject );
+  void removeNode(Node* node);
 
-  void removeGameObjectInNextFrame( GameObject* gameObject );
+  void removeNodeInNextFrame(Node* node);
 
 private:
-  void lockGameObjects();
+  void lockNodes();
 
-  void unlockGameObjects();
+  void unlockNodes();
 
-  void updateAddAndRemoveGameObjects();
+  void updateAddAndRemoveNodes();
 
-  void doAddGameObject( GameObject* gameObject );
+  void doAddNode(Node* node);
 
-  void doRemoveGameObject( GameObject* gameObject );
+  void doRemoveNode(Node* node );
 
   // =============================================
   // Debug memory allocation
