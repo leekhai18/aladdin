@@ -7,7 +7,6 @@ void AladdinPrefab::doInstantiate( ala::GameObject* object ) {
 	new ala::Animator(object, "idle1", "aladdin.animation");
 	auto stateManager = new ala::StateManager(object, "stand_right");
 	auto animator = object->getComponentT<ala::Animator>();
-
 	// State Stand
 	new ala::State(stateManager, "stand_right",
 		[=] {
@@ -28,7 +27,7 @@ void AladdinPrefab::doInstantiate( ala::GameObject* object ) {
 		if (animator->getAction() == "run_1" && !animator->isPlaying())
 			animator->setAction("run_2");
 		auto position = object->getTransform()->getPosition();
-		position.setX(position.getX() + 100 * dt);
+		position.setX(position.getX() + 120 * dt);
 		object->getTransform()->setPosition(position);
 	}, NULL);
 	new ala::State(stateManager, "go_left",
@@ -40,18 +39,46 @@ void AladdinPrefab::doInstantiate( ala::GameObject* object ) {
 		if (animator->getAction() == "run_1" && !animator->isPlaying())
 			animator->setAction("run_2");
 		auto position = object->getTransform()->getPosition();
-		position.setX(position.getX() - 100 * dt);
+		position.setX(position.getX() - 120 * dt);
 		object->getTransform()->setPosition(position);
 	}, NULL);
 
 	// State Sit
-	new ala::State(stateManager, "sit_left",
+	new ala::State(stateManager, "sit",
 		[=] {
 		animator->setAction("sit");
 	}, NULL, NULL);
-	new ala::State(stateManager, "sit_right",
+
+	// State Jump
+	new ala::State(stateManager,"jump_up",
 		[=] {
-		animator->setAction("sit");
+		animator->setAction("jumpnup");
+	}, 
+		[=](float dt) {
+		if (animator->getAction() == "jumpnup" && animator->isPlaying())
+		{
+			auto position = object->getTransform()->getPosition();
+			position.setY(position.getY() + 100 * 0.03);
+			object->getTransform()->setPosition(position);
+		}
+	}, NULL);
+	new ala::State(stateManager, "jump_down",
+		[=] {
+		animator->setAction("jumpndown");
+	},
+		[=](float dt) {
+		if (animator->getAction() == "jumpndown" && animator->isPlaying())
+		{
+			auto position = object->getTransform()->getPosition();
+			position.setY(position.getY() - 101 * 0.03);
+			object->getTransform()->setPosition(position);
+		}
+	}, NULL);
+
+	// State Look Up
+	new ala::State(stateManager,"look_up",
+		[=] {
+		animator->setAction("lookup");
 	}, NULL, NULL);
 
 	new ala::StateTransition(stateManager, "stand_right", "go_right",
@@ -82,20 +109,56 @@ void AladdinPrefab::doInstantiate( ala::GameObject* object ) {
 		[] {
 		return ala::Input::get()->getKeyUp(ALA_KEY_LEFT_ARROW);
 	});
-	new ala::StateTransition(stateManager, "stand_left", "sit_left",
+	new ala::StateTransition(stateManager, "stand_left", "sit",
 		[] {
 		return ala::Input::get()->getKeyDown(ALA_KEY_DOWN_ARROW);
 	});
-	new ala::StateTransition(stateManager, "stand_right", "sit_right",
+	new ala::StateTransition(stateManager, "stand_right", "sit",
 		[] {
 		return ala::Input::get()->getKeyDown(ALA_KEY_DOWN_ARROW);
 	});
-	new ala::StateTransition(stateManager, "sit_left", "stand_left",
+	new ala::StateTransition(stateManager, "sit", "stand_left",
 		[] {
 		return ala::Input::get()->getKeyUp(ALA_KEY_DOWN_ARROW);
 	});
-	new ala::StateTransition(stateManager, "sit_right", "stand_right",
+	new ala::StateTransition(stateManager, "sit", "stand_right",
 		[] {
 		return ala::Input::get()->getKeyUp(ALA_KEY_DOWN_ARROW);
+	});
+	new ala::StateTransition(stateManager,"stand_right","jump_up",
+		[] {
+		return ala::Input::get()->getKeyDown(ALA_KEY_D);
+	});
+	new ala::StateTransition(stateManager, "stand_left", "jump_up",
+		[] {
+		return ala::Input::get()->getKeyDown(ALA_KEY_D);
+	});
+	new ala::StateTransition(stateManager, "jump_up", "jump_down",
+		[=] {
+		return animator->getAction() == "jumpnup"&& !animator->isPlaying();
+	});
+	new ala::StateTransition(stateManager, "jump_down", "stand_left",
+		[=] {
+		return animator->getAction() == "jumpndown" && !animator->isPlaying();
+	});
+	new ala::StateTransition(stateManager, "jump_down", "stand_right",
+		[=] {
+		return animator->getAction() == "jumpndown" && !animator->isPlaying();
+	});
+	new ala::StateTransition(stateManager, "stand_right", "look_up",
+		[] {
+		return ala::Input::get()->getKeyDown(ALA_KEY_UP_ARROW);
+	});
+	new ala::StateTransition(stateManager, "stand_left", "look_up",
+		[] {
+		return ala::Input::get()->getKeyDown(ALA_KEY_UP_ARROW);
+	});
+	new ala::StateTransition(stateManager, "look_up", "stand_right",
+		[] {
+		return ala::Input::get()->getKeyUp(ALA_KEY_UP_ARROW);
+	});
+	new ala::StateTransition(stateManager, "look_up", "stand_left",
+		[] {
+		return ala::Input::get()->getKeyUp(ALA_KEY_UP_ARROW);
 	});
 }
