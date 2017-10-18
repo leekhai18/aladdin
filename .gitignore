@@ -4,3 +4,5 @@ Release
 bin
 *.obj
 /aladdin.sln.DotSettings.user
+/aladdin.VC.db
+/aladdin.VC.VC.opendb

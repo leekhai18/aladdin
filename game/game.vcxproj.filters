@@ -54,6 +54,12 @@
     <ClCompile Include="prefabs\AladdinPrefab.cpp">
       <Filter>prefabs</Filter>
     </ClCompile>
+    <ClCompile Include="prefabs\BackgroundPrefab.cpp">
+      <Filter>prefabs</Filter>
+    </ClCompile>
+    <ClCompile Include="scripts\CameraController.cpp">
+      <Filter>scripts</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="app\MyApp.h">
@@ -77,6 +83,12 @@
     <ClInclude Include="prefabs\AladdinPrefab.h">
       <Filter>prefabs</Filter>
     </ClInclude>
+    <ClInclude Include="prefabs\BackgroundPrefab.h">
+      <Filter>prefabs</Filter>
+    </ClInclude>
+    <ClInclude Include="scripts\CameraController.h">
+      <Filter>scripts</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="log.txt">
@@ -91,6 +103,9 @@
       <Filter>texures</Filter>
     </Image>
     <Image Include="textures\sprites.png">
+      <Filter>texures</Filter>
+    </Image>
+    <Image Include="textures\background.png">
       <Filter>texures</Filter>
     </Image>
   </ItemGroup>
