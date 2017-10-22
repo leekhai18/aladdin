@@ -7,10 +7,12 @@
 #include "../prefabs/CameraPrefab.h"
 #include "../prefabs/AladdinPrefab.h"
 #include "../prefabs/BackgroundPrefab.h"
+#include "../prefabs/ForegroundPrefab.h"
 
 void MyResourceInitializer::run() {
 	// Layer
 	ala::GameManager::get()->addLayer("background");
+	ala::GameManager::get()->addLayer("forekground");
 
 
   // Textures
@@ -22,6 +24,7 @@ void MyResourceInitializer::run() {
   new ala::Animation("aladdin.animation", "animations/aladdin.animation");
 
   new ala::Sprite("background.png", "textures/background.png");
+  new ala::Sprite("foreground.png", "textures/foreground.png");
 
   // Audio
   new ala::AudioClip( "wow.wav", "audio/sfx/wow.wav" );
@@ -31,4 +34,5 @@ void MyResourceInitializer::run() {
   new BallPrefab();
   new CameraPrefab();
   new BackgroundPrefab();
+  new ForegroundPrefab();
 }
