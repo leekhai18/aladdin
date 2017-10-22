@@ -47,10 +47,83 @@ void AladdinPrefab::doInstantiate( ala::GameObject* object ) {
                   movement->setVectorX( -goSpeed );
                 },
                   [=]( float dt ) {
+                  auto position = object->getTransform()->getPosition();
+                  position.setX( position.getX() - 100 * dt );
+                  object->getTransform()->setPosition( position );
+                },
+                  NULL );
+  new ala::State(stateManager, "jump",
+				[=] {
+				auto animator = object->getComponentT<ala::Animator>();
+				animator->setAction("jumpnfall");
+				object->getTransform()->setScaleY(1);
+			},
+				[=](float dt) {
+				auto position = object->getTransform()->getPosition();
+				position.setY(position.getY() + 100 * dt);
+				object->getTransform()->setPosition(position);
+			},
+				NULL);
+  new ala::State(stateManager, "fall",
+	  [=] {
+	  auto animator = object->getComponentT<ala::Animator>();
+	  animator->setAction("falltoground");
+	  object->getTransform()->setScaleY(1);
+  },
+	  [=](float dt) {
+	  auto position = object->getTransform()->getPosition();
+	  position.setY(position.getY() - 100 * dt);
+	  object->getTransform()->setPosition(position);
+  },
+	NULL);
+  new ala::State(stateManager, "sit",
+	  [=] {
+	  auto animator = object->getComponentT<ala::Animator>();
+	  animator->setAction("sit");
+	  object->getTransform()->setScaleY(1);
+  }, NULL, NULL);
                   if ( animator->getAction() == "run_1" && !animator->isPlaying() )
                     animator->setAction( "run_2" );
                 }, NULL );
 
+  new ala::StateTransition(stateManager, "stand-left", "jump", [] {
+	  return ala::Input::get()->getKeyDown(ALA_KEY_UP_ARROW);
+  });
+  new ala::StateTransition(stateManager, "stand-right", "jump", [] {
+	  return ala::Input::get()->getKeyDown(ALA_KEY_UP_ARROW);
+  });
+  new ala::StateTransition(stateManager, "jump", "fall", [=] {
+	  auto position = object->getTransform()->getPosition();
+	  if (position.getY() > (ala::GameManager::get()->getScreenHeight() / 2) + 50)
+		  return true;
+	  return false;
+  });
+  new ala::StateTransition(stateManager, "fall", "stand-right", [=] {
+	  auto position = object->getTransform()->getPosition();
+	  if (position.getY() > ala::GameManager::get()->getScreenHeight() / 2)
+		return false;
+	  return true;
+  });
+  new ala::StateTransition(stateManager, "fall", "stand-left", [=] {
+	  auto position = object->getTransform()->getPosition();
+	  if (position.getY() > ala::GameManager::get()->getScreenHeight() / 2)
+		  return false;
+	  return true;
+  });
+  new ala::StateTransition(stateManager, "stand-left", "sit", [] {
+	  return ala::Input::get()->getKeyDown(ALA_KEY_DOWN_ARROW);
+  });
+  new ala::StateTransition(stateManager, "stand-right", "sit", [] {
+	  return ala::Input::get()->getKeyDown(ALA_KEY_DOWN_ARROW);
+  });
+  new ala::StateTransition(stateManager, "sit", "stand-right", [] {
+	  return ala::Input::get()->getKeyUp(ALA_KEY_DOWN_ARROW);
+  });
+  new ala::StateTransition(stateManager, "sit", "stand-left", [] {
+	  return ala::Input::get()->getKeyUp(ALA_KEY_DOWN_ARROW);
+  });
+
+  new ala::StateTransition( stateManager, "go-left", "go-right", [] {
   // State Sit
   new ala::State( stateManager, "sit_left",
                   [=] {
