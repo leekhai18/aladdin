@@ -28,6 +28,27 @@
     <Filter Include="animations">
       <UniqueIdentifier>{6f2110f8-5cca-4925-a665-f5a8eb1bcb0e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="texures\backgrounds">
+      <UniqueIdentifier>{de01f570-343d-4c95-9e73-7aaf3f9af7d8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="texures\miscellaneous">
+      <UniqueIdentifier>{1099ca84-094d-4983-9bf2-4092ee4e15ec}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="texures\bosses">
+      <UniqueIdentifier>{75d5b006-831d-4b59-b1b0-f65956aa7bae}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="texures\enemies">
+      <UniqueIdentifier>{177ee673-e1ac-4433-8e09-68a7a48e0e4f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="texures\playable_characters">
+      <UniqueIdentifier>{4408fdca-1d79-4e73-bbb5-0392844a5db1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="texures\nonplayable_characters">
+      <UniqueIdentifier>{f32a4edd-1a41-4c31-97f5-de7010f0cec1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="animations\playable_characters">
+      <UniqueIdentifier>{29c760ca-292d-4d44-bca3-77672270b5f0}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="app\main.cpp">
@@ -42,16 +63,16 @@
     <ClCompile Include="app\MyResourceInitializer.cpp">
       <Filter>app</Filter>
     </ClCompile>
-    <ClCompile Include="prefabs\BallPrefab.cpp">
-      <Filter>prefabs</Filter>
-    </ClCompile>
-    <ClCompile Include="scripts\BallController.cpp">
-      <Filter>scripts</Filter>
-    </ClCompile>
     <ClCompile Include="prefabs\CameraPrefab.cpp">
       <Filter>prefabs</Filter>
     </ClCompile>
     <ClCompile Include="prefabs\AladdinPrefab.cpp">
+      <Filter>prefabs</Filter>
+    </ClCompile>
+    <ClCompile Include="scripts\VectorBasedMovement.cpp">
+      <Filter>scripts</Filter>
+    </ClCompile>
+    <ClCompile Include="prefabs\ThrowableApplePrefab.cpp">
       <Filter>prefabs</Filter>
     </ClCompile>
   </ItemGroup>
@@ -65,16 +86,16 @@
     <ClInclude Include="app\MyResourceInitializer.h">
       <Filter>app</Filter>
     </ClInclude>
-    <ClInclude Include="prefabs\BallPrefab.h">
-      <Filter>prefabs</Filter>
-    </ClInclude>
-    <ClInclude Include="scripts\BallController.h">
-      <Filter>scripts</Filter>
-    </ClInclude>
     <ClInclude Include="prefabs\CameraPrefab.h">
       <Filter>prefabs</Filter>
     </ClInclude>
     <ClInclude Include="prefabs\AladdinPrefab.h">
+      <Filter>prefabs</Filter>
+    </ClInclude>
+    <ClInclude Include="scripts\VectorBasedMovement.h">
+      <Filter>scripts</Filter>
+    </ClInclude>
+    <ClInclude Include="prefabs\ThrowableApplePrefab.h">
       <Filter>prefabs</Filter>
     </ClInclude>
   </ItemGroup>
@@ -84,14 +105,11 @@
     </Text>
   </ItemGroup>
   <ItemGroup>
-    <Image Include="textures\ball.png">
-      <Filter>texures</Filter>
+    <Image Include="textures\miscellaneous\throwable_apple.png">
+      <Filter>texures\miscellaneous</Filter>
     </Image>
-    <Image Include="textures\aladdin.png">
-      <Filter>texures</Filter>
-    </Image>
-    <Image Include="textures\sprites.png">
-      <Filter>texures</Filter>
+    <Image Include="textures\playable_characters\aladdin.png">
+      <Filter>texures\playable_characters</Filter>
     </Image>
   </ItemGroup>
   <ItemGroup>
@@ -100,11 +118,8 @@
     </Media>
   </ItemGroup>
   <ItemGroup>
-    <None Include="animations\sprites.animation">
-      <Filter>animations</Filter>
-    </None>
-    <None Include="animations\aladdin.animation">
-      <Filter>animations</Filter>
+    <None Include="animations\playable_characters\aladdin.animation">
+      <Filter>animations\playable_characters</Filter>
     </None>
   </ItemGroup>
 </Project>

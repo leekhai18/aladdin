@@ -108,7 +108,7 @@
 		<Rect height="22" width="63" y="518" x="77" />
 		<Rect height="42" width="55" y="911" x="201" />
 	</Action>
-	<Action actionName = "idle1" interval = "0.1" isLoop = "true">
+	<Action actionName = "idle_1" interval = "0.1" isLoop = "true">
 		<Rect height="50" width="37" y="592" x="687" />
 		<Rect height="47" width="41" y="0" x="272" />
 		<Rect height="52" width="40" y="745" x="605" />
@@ -117,7 +117,7 @@
 		<Rect height="51" width="42" y="791" x="561" />
 		<Rect height="53" width="44" y="964" x="470" />
 	</Action>
-	<Action actionName = "idle2" interval = "0.1" isLoop = "true">
+	<Action actionName = "idle_2" interval = "0.1" isLoop = "true">
 		<Rect height="52" width="40" y="745" x="605" />
 		<Rect height="53" width="61" y="310" x="79" />
 		<Rect height="54" width="62" y="254" x="79" />
@@ -229,7 +229,7 @@
 		<Rect  height="35" width="39" y="50" x="216" />
 		<Rect  height="42" width="43" y="67" x="516" />
 	</Action>
-	<Action actionName = "run" interval = "0.1" isLoop = "true">
+	<Action actionName = "run_1" interval = "0.1" isLoop = "false">
 		<Rect  height="48" width="40" y="55" x="604" />
 		<Rect  height="51" width="43" y="964" x="516" />
 		<Rect  height="53" width="41" y="589" x="562" />
@@ -244,6 +244,22 @@
 		<Rect  height="55" width="55" y="151" x="204" />
 		<Rect  height="57" width="44" y="905" x="470" />
 	</Action>
+  
+  <Action actionName = "run_2" interval = "0.1" isLoop = "true">
+		<Rect  height="53" width="41" y="589" x="562" />
+		<Rect  height="57" width="41" y="530" x="562" />
+		<Rect  height="57" width="52" y="862" x="314" />
+		<Rect  height="54" width="46" y="474" x="468" />
+		<Rect  height="58" width="42" y="645" x="561" />
+		<Rect  height="52" width="41" y="372" x="604" />
+		<Rect  height="54" width="35" y="327" x="726" />
+		<Rect  height="57" width="49" y="293" x="369" />
+		<Rect  height="58" width="55" y="91" x="204" />
+		<Rect  height="55" width="55" y="151" x="204" />
+		<Rect  height="57" width="44" y="905" x="470" />
+	</Action>
+  
+    
 	<Action actionName = "runnjumpncut" interval = "0.1" isLoop = "false">
 		<Rect height="42" width="41" y="451" x="563" />
 		<Rect height="76" width="45" y="452" x="516" />

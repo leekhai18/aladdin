@@ -8,7 +8,6 @@ IntroScene::IntroScene() : _logger( "IntroScene" ) {}
 
 void IntroScene::onPreInitialize() {
   ala::GameManager::get()->getPrefab( "Camera" )->instantiate();
-  ala::GameManager::get()->getPrefab( "Ball" )->instantiate();
   ala::GameManager::get()->getPrefab( "Aladdin" )->instantiate();
 }
 

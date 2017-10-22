@@ -11,10 +11,10 @@ MyApp::MyApp() : Application() {}
 
 void MyApp::onPreInitialize() {
   // configurations
-  setScreenSize( 800, 600 );
+  setScreenSize( 480, 360 );
   setTitle( "Aladdin" );
   setFps( 60 );
-  ala::Logger::setLogLevel( ala::Logger::LOG_INFO );
+  Logger::setLogLevel( Logger::LOG_INFO );
 
   // resource initializers
   registerResourceInitializer( new MyResourceInitializer() );
