@@ -1,5 +1,5 @@
-﻿#ifndef __ALADDIN_CORE_FONT_H__
-#define __ALADDIN_CORE_FONT_H__
+﻿#ifndef __ALADDIN_UI_FONT_H__
+#define __ALADDIN_UI_FONT_H__
 
 #include "../core/GameResource.h"
 #include "FontInfo.h"
@@ -25,4 +25,4 @@ protected:
   void onRelease() override;
 };
 }
-#endif //!__ALADDIN_CORE_FONT_H__
+#endif //!__ALADDIN_UI_FONT_H__
