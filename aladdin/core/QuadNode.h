@@ -1,0 +1,5 @@
+#ifndef __ALADDIN_CORE_QUAD_NODE_H__
+#define __ALADDIN_CORE_QUAD_NODE_H__
+
+
+#endif //!__ALADDIN_CORE_QUAD_NODE_H__
