@@ -10,6 +10,7 @@
 */
 
 #include "GameObject.h"
+#include "QuadNode.h"
 
 NAMESPACE_ALA
 {
@@ -106,6 +107,8 @@ protected:
   // ==================================================
 private:
   std::unordered_map<long, GameObject*> _gameObjects;
+  std::unordered_map<long, QuadNode*> _quadNodes;
+
   bool _gameObjectInLocking;
   std::vector<GameObject*> _gameObjectsToAddInNextFrame;
   std::vector<GameObject*> _gameObjectsToRemoveInNextFrame;

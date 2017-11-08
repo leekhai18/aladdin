@@ -190,6 +190,9 @@
     <ClInclude Include="2d\CameraPrefab.h">
       <Filter>2d</Filter>
     </ClInclude>
+    <ClInclude Include="core\QuadNode.h">
+      <Filter>core</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="core\ClassMeta.cpp">
@@ -329,6 +332,9 @@
     </ClCompile>
     <ClCompile Include="2d\CameraPrefab.cpp">
       <Filter>2d</Filter>
+    </ClCompile>
+    <ClCompile Include="core\QuadNode.cpp">
+      <Filter>core</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
